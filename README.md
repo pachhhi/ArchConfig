@@ -7,12 +7,12 @@ The public bundle contains the rice's shell, window-manager, panel, launcher, GT
 ## What the installer does
 
 - Runs a full `pacman -Syu` before installing packages, avoiding unsupported partial upgrades.
-- Installs the packages used by the rice from official repositories, including QMMP, and Eww from the AUR, building `yay` if needed.
+- Installs the rice packages from official repositories, including QMMP, Vim, and Neovim (`nvim`), and Eww from the AUR, building `yay` if needed.
 - Validates the bundle's SHA-256 manifest before restoring files.
 - Backs up conflicting destination files under `~/.local/state/archconfig-backups/` and leaves unrelated files in place.
-- Supports `--dry-run`, `--config-only`, `--packages-only`, and `--config-dir DIR`.
+- Supports `--dry-run`, `--noconfirm`, `--config-only`, `--packages-only`, and `--config-dir DIR`.
 
-The installer runs as a regular user, requests `sudo` for package operations, and keeps pacman/AUR prompts enabled. It does not configure a bootloader, GPU driver, login manager, or default shell. Openbox is the default session in `.xinitrc`; select BSPWM with `RICE_WM=bspwm startx`.
+The installer runs as a regular user and requests `sudo` for package operations. Prompts stay enabled by default; `--noconfirm` skips package-manager and AUR confirmations where supported. It cannot bypass `sudo` password authentication. It does not configure a bootloader, GPU driver, login manager, or default shell. Openbox is the default session in `.xinitrc`; select BSPWM with `RICE_WM=bspwm startx`.
 
 ## Requirements
 
@@ -34,6 +34,7 @@ From a clone of this repository:
 Options:
 
 - `--dry-run`: prints the package and configuration plan and exits without making changes.
+- `--noconfirm`: bypasses supported pacman, makepkg, and yay confirmation prompts; package operations may proceed without a final review. Sudo may still ask for your password.
 - `--config-only`: restores the rice bundle without installing packages.
 - `--packages-only`: installs packages without restoring configuration.
 - `--config-dir DIR`: uses another reviewed bundle containing `home/` and `manifest.json`.
@@ -48,10 +49,10 @@ After installation, log out and select Openbox in an existing login manager, or 
 - `rice-config/home/`: allowlisted, portable rice configuration and assets, including the selected QMMP skin.
 - `tools/update-rice-manifest.py`: regenerates the bundle integrity manifest after reviewed edits.
 
-The manifest covers only files inside `rice-config/`. The root `.gitignore` excludes dated personal archives, `vm-test/`, generated output, environment files, keys, and caches. Never copy personal backup data into the public bundle.
+The Zsh configuration includes the workflow shortcuts from the original setup, using portable home-relative paths; local projects, VPN profiles, and credentials remain outside the bundle. The manifest covers only files inside `rice-config/`. The root `.gitignore` excludes dated personal archives, `vm-test/`, generated output, environment files, keys, and caches. Never copy personal backup data into the public bundle.
 
 ## Scope and limitations
 
-This installs desktop configuration and its package dependencies; it is not a full system image or rollback mechanism. Existing settings that differ are saved before replacement, but package installation can upgrade the system. Monitor layouts, hardware-specific GPU metrics, and optional home-folder actions can vary by machine. The Eww GPU widget displays `N/A` when the graphics driver does not expose a supported utilization counter.
+This installs desktop configuration and its package dependencies; it is not a full system image or rollback mechanism. Existing settings that differ are saved before replacement, but package installation can upgrade the system. Monitor layouts, hardware-specific GPU metrics, and optional home-folder actions can vary by machine. Project-specific Zsh shortcuts work when the corresponding local tools or folders exist. The Eww GPU widget displays `N/A` when the graphics driver does not expose a supported utilization counter.
 
 No `LICENSE` file is included. Publishing this repository on GitHub does not by itself grant permission to reuse or redistribute its code.

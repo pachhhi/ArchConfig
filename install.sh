@@ -3,20 +3,22 @@
 set -Eeuo pipefail
 BASE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 RICE_CONFIG="$BASE/rice-config"
-DRY=0; CONFIG_ONLY=0; PACKAGES_ONLY=0
+DRY=0; CONFIG_ONLY=0; PACKAGES_ONLY=0; NOCONFIRM=0
 usage() {
   cat <<'HELP'
-Usage: ./install.sh [--dry-run] [--config-only | --packages-only] [--config-dir DIR]
+Usage: ./install.sh [--dry-run] [--noconfirm] [--config-only | --packages-only] [--config-dir DIR]
   --dry-run        Print the plan; no writes, sudo, network or package changes.
+  --noconfirm      Skip package-manager/AUR confirmation prompts where supported.
   --config-only    Install the rice configuration without installing packages.
   --packages-only  Install rice packages without restoring configuration.
   --config-dir DIR Use another rice bundle containing home/ and manifest.json.
-Run as a regular user with sudo privileges. Package-manager and AUR prompts stay enabled.
+Run as a regular user with sudo privileges. --noconfirm does not bypass sudo password authentication.
 HELP
 }
 while (($#)); do
   case "$1" in
     --dry-run) DRY=1;;
+    --noconfirm) NOCONFIRM=1;;
     --config-only) CONFIG_ONLY=1;;
     --packages-only) PACKAGES_ONLY=1;;
     --config-dir) (($#>=2)) || { usage; exit 2; }; RICE_CONFIG=$2; shift;;
@@ -32,7 +34,7 @@ if ((!PACKAGES_ONLY)); then
     exit 1
   }
 fi
-REPO=(sudo base-devel git curl wget python zsh eza fzf ripgrep jq
+REPO=(sudo base-devel git curl wget python zsh eza fzf ripgrep jq vim neovim
   openbox obconf-qt bspwm sxhkd kitty rofi picom polybar feh wmctrl xdotool xclip maim
   xorg-server xorg-xinit xorg-xrandr xorg-xset xorg-xsetroot xorg-xprop xorg-xrdb
   dbus dunst libnotify slock playerctl alsa-utils pavucontrol
@@ -46,6 +48,11 @@ if ((!CONFIG_ONLY)); then
   printf '\nOfficial packages:\n%s\n' "${REPO[*]}"
   printf '\nRice AUR packages (+ yay if missing):\n%s\n' "${AUR[*]}"
   echo 'A full pacman -Syu upgrade precedes installation (no partial upgrades).'
+  if ((NOCONFIRM)); then
+    echo 'Package-manager and AUR confirmation prompts: disabled where supported.'
+  else
+    echo 'Package-manager and AUR confirmation prompts: enabled.'
+  fi
 fi
 if ((!PACKAGES_ONLY)); then
   echo 'Restore: reviewed rice configs, QMMP with the selected Lain skin, Eww scripts, Openbox theme, and wallpapers.'
@@ -59,14 +66,20 @@ if ((!CONFIG_ONLY)); then
   if ! sudo -n true 2>/dev/null; then
     sudo -v
   fi
-  sudo pacman -Syu --needed "${REPO[@]}"
+  PACMAN_FLAGS=()
+  if ((NOCONFIRM)); then PACMAN_FLAGS+=(--noconfirm); fi
+  sudo pacman -Syu --needed "${PACMAN_FLAGS[@]}" "${REPO[@]}"
   if ! command -v yay >/dev/null; then
     BUILD_DIR=$(mktemp -d -t archconfig-yay.XXXXXXXX)
     trap '[[ -z ${BUILD_DIR:-} ]] || rm -rf -- "$BUILD_DIR"' EXIT
     git clone https://aur.archlinux.org/yay.git "$BUILD_DIR/yay"
-    (cd "$BUILD_DIR/yay" && makepkg -si)
+    MAKEPKG_FLAGS=()
+    if ((NOCONFIRM)); then MAKEPKG_FLAGS+=(--noconfirm); fi
+    (cd "$BUILD_DIR/yay" && makepkg -si "${MAKEPKG_FLAGS[@]}")
   fi
-  yay -S --needed "${AUR[@]}"
+  YAY_FLAGS=()
+  if ((NOCONFIRM)); then YAY_FLAGS+=(--noconfirm); fi
+  yay -S --needed "${YAY_FLAGS[@]}" "${AUR[@]}"
 fi
 if ((!PACKAGES_ONLY)); then
   command -v python3 >/dev/null || { echo 'python3 is required for restoration.' >&2; exit 1; }
