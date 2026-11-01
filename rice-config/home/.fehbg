@@ -1,0 +1,3 @@
+#!/bin/sh
+wall="$HOME/.local/share/archconfig/wallpapers/bg.png"
+[ -r "$wall" ] && feh --no-fehbg --bg-fill "$wall"

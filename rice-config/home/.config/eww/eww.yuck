@@ -1,0 +1,261 @@
+;; Wired dashboard — existing data sources and actions.
+(defpoll cpu :interval "2s" :initial "0" "scripts/cpu.sh")
+(defpoll ram :interval "2s" :initial "0" "scripts/ram.sh")
+(defpoll gpu :interval "2s" :initial "N/A" "bash scripts/gpu.sh")
+(defpoll windows :interval "2s" :initial "[]" "scripts/windows.sh")
+(deflisten audio-sinks :initial "[]" "scripts/audio-state.py sinks --watch")
+(deflisten audio-inputs :initial "[]" "scripts/audio-state.py inputs --watch")
+(defpoll tasks :interval "24h" :initial "[]" "python3 $HOME/.config/eww/scripts/tasks.py list")
+(defpoll daily-tasks :interval "24h" :initial "[]" "env EWW_TASKS_FILE=$HOME/.local/share/eww-daily-tasks/tasks.json EWW_TASKS_VARIABLE=daily-tasks python3 $HOME/.config/eww/scripts/tasks.py list")
+(defpoll local-clock :interval "30s" :initial "--:-- | --/--/----" "date '+%H:%M | %d/%m/%Y'")
+
+
+(defvar audio-tab "sinks")
+(defvar notes-open true)
+(defvar daily-tasks-open true)
+(defvar audio-open true)
+(defwidget resource-bars [value]
+  (box :class "resource-bars" :orientation "h" :space-evenly true :spacing 1
+    (for threshold in "[16,32,48,64,80,96]"
+      (label :class {value >= threshold ? "bar lit" : "bar"} :text "▏"))))
+(defwidget resource-card [name icon value]
+  (box :class "resource-card" :orientation "h" :space-evenly false :spacing 8
+    (label :class "resource-icon" :text icon)
+    (box :orientation "v" :space-evenly false
+      (label :class "resource-name" :show-truncated false :halign "start" :text name)
+      (label :class "resource-value" :show-truncated false :halign "start" :text "${value}${value == 'N/A' ? '' : '%'}"))
+    (box :hexpand true :halign "end" (resource-bars :value {value == 'N/A' ? 0 : value}))))
+(defwidget section-heading [number title subtitle]
+  (box :class "section-heading" :orientation "h" :space-evenly false :spacing 16
+    (label :class "section-number" :text number)
+    (label :class "section-title" :halign "start" :text title)
+    (box :class "heading-line" :hexpand true :valign "center")
+    (label :class "section-subtitle" :text subtitle)))
+(defwidget tasks-widget []
+  (box :class "tasks-card" :orientation "v" :space-evenly false
+    (box :class "tasks-header" :orientation "h" :space-evenly false :spacing 12
+      (button :class "section-toggle" :hexpand true
+        :tooltip {notes-open ? "Collapse Notes" : "Expand Notes"}
+        :onclick {notes-open ? "eww update notes-open=false" : "eww update notes-open=true"}
+        (section-heading :number "01" :title {notes-open ? "NOTES  ▾" : "NOTES  ▸"} :subtitle "メモ"))
+      (box :hexpand true)
+      (button :class "task-add" :tooltip "Add task"
+        :onclick "rofi -dmenu -p 'New task' | python3 $HOME/.config/eww/scripts/tasks.py add-stdin"
+        (label :text "[ + ]")))
+    (overlay :class "tasks-art-stage" :visible {notes-open}
+    (box :class "tasks-body" :orientation "v" :space-evenly false
+      (scroll :height 238 :vscroll true :hscroll false
+        (box :orientation "v" :space-evenly false
+          (label :class "tasks-empty" :halign "start" :visible {arraylength(tasks) == 0} :text "No tasks yet")
+          (for task in tasks
+            (box :class "task-row" :orientation "h" :space-evenly false :spacing 12
+              (button :class "task-toggle" :tooltip "Complete / reopen"
+                :onclick "python3 $HOME/.config/eww/scripts/tasks.py toggle ${task.id}"
+                (label :text {task.done ? "●" : "○"}))
+              (label :class {task.done ? "task-text-done" : "task-text"} :halign "start" :hexpand true
+                :limit-width 43 :tooltip "${task.text}" :text "${task.text}")
+              (button :class "task-delete" :tooltip "Delete task"
+                :onclick "python3 $HOME/.config/eww/scripts/tasks.py delete ${task.id}"
+                (label :text "×"))))))
+      ;; Reserved lower-right region: future Lain illustration belongs here.
+      (box :class "tasks-decoration-slot" :height 72 :orientation "h" :space-evenly false
+        (label :class "task-annotation" :show-truncated false :halign "start" :valign "end" :text "// DAILY.NOTES   // ARCH CONFIG")
+        (box :class "task-footer-space" :hexpand true)))
+      (box :class "lain-art-slot" :halign "end" :valign "end" :width 200 :height 220))))
+(defwidget today-checklist-widget []
+  (box :class "today-checklist-card" :orientation "v" :space-evenly false
+    (box :class "tasks-header" :orientation "h" :space-evenly false :spacing 12
+      (button :class "section-toggle" :hexpand true
+        :tooltip {daily-tasks-open ? "Collapse daily tasks" : "Expand daily tasks"}
+        :onclick {daily-tasks-open ? "eww update daily-tasks-open=false" : "eww update daily-tasks-open=true"}
+        (section-heading :number "02" :title {daily-tasks-open ? "DAILY TASKS  ▾" : "DAILY TASKS  ▸"} :subtitle "今日のタスク"))
+      (box :hexpand true)
+      (button :class "task-add" :tooltip "Add daily task"
+        :onclick "rofi -dmenu -p 'New daily task' | env EWW_TASKS_FILE=$HOME/.local/share/eww-daily-tasks/tasks.json EWW_TASKS_VARIABLE=daily-tasks python3 $HOME/.config/eww/scripts/tasks.py add-stdin"
+        (label :text "[ + ]")))
+    (box :class "daily-tasks-body" :visible {daily-tasks-open} :orientation "v" :space-evenly false
+      (scroll :height 120 :vscroll true :hscroll false
+        (box :orientation "v" :space-evenly false
+          (label :class "tasks-empty" :halign "start" :visible {arraylength(daily-tasks) == 0} :text "No daily tasks yet")
+          (for task in daily-tasks
+            (box :class "task-row" :orientation "h" :space-evenly false :spacing 12
+              (button :class "task-toggle" :tooltip "Complete / reopen"
+                :onclick "env EWW_TASKS_FILE=$HOME/.local/share/eww-daily-tasks/tasks.json EWW_TASKS_VARIABLE=daily-tasks python3 $HOME/.config/eww/scripts/tasks.py toggle ${task.id}"
+                (label :text {task.done ? "●" : "○"}))
+              (label :class {task.done ? "task-text-done" : "task-text"} :halign "start" :hexpand true
+                :limit-width 43 :tooltip "${task.text}" :text "${task.text}")
+              (button :class "task-delete" :tooltip "Delete daily task"
+                :onclick "env EWW_TASKS_FILE=$HOME/.local/share/eww-daily-tasks/tasks.json EWW_TASKS_VARIABLE=daily-tasks python3 $HOME/.config/eww/scripts/tasks.py delete ${task.id}"
+                (label :text "×")))))))))
+(defwidget audio-mixer []
+  (box :class "audio-mixer" :orientation "v" :space-evenly false
+    (button :class "section-toggle" :hexpand true
+      :tooltip {audio-open ? "Collapse Audio" : "Expand Audio"}
+      :onclick {audio-open ? "eww update audio-open=false" : "eww update audio-open=true"}
+      (section-heading :number "03" :title {audio-open ? "AUDIO  ▾" : "AUDIO  ▸"} :subtitle "オーディオ"))
+    (box :class "audio-tabs" :visible {audio-open} :orientation "h" :space-evenly false :spacing 12
+      (button :class {audio-tab == "sinks" ? "audio-tab selected" : "audio-tab"}
+        :onclick "eww update audio-tab=sinks" (label :text "Outputs"))
+      (button :class {audio-tab == "inputs" ? "audio-tab selected" : "audio-tab"}
+        :onclick "eww update audio-tab=inputs" (label :text "Applications")))
+    (scroll :visible {audio-open} :height 132 :hscroll false :vscroll true
+      (box :class "audio-content" :orientation "v" :space-evenly false
+        (box :visible {audio-tab == "sinks"} :orientation "v" :space-evenly false :spacing 8
+          (for sink in audio-sinks
+            (box :class "audio-row" :orientation "h" :space-evenly false :spacing 12
+              (button :class {sink.muted ? "audio-mute muted" : "audio-mute"}
+                :tooltip "Mute / unmute" :onclick "scripts/audio-control.sh sink mute ${sink.id}"
+                (label :text "󰕾"))
+              (button :class {sink.default ? "audio-name active" : "audio-name"}
+                :tooltip "${sink.name} — click to set as default output"
+                :onclick "scripts/audio-control.sh sink default ${sink.pactl_name}"
+                (label :limit-width 24 :halign "start" :text "${sink.name}"))
+              (scale :class "audio-slider" :hexpand true :min 0 :max 100 :value "${sink.volume}"
+                :onchange "scripts/audio-control.sh sink set ${sink.id} {}"))))
+        (box :visible {audio-tab == "inputs"} :orientation "v" :space-evenly false :spacing 8
+          (label :visible {arraylength(audio-inputs) == 0} :class "tasks-empty" :text "No applications playing audio")
+          (for input in audio-inputs
+            (box :class "audio-row" :orientation "h" :space-evenly false :spacing 12
+              (button :class {input.muted ? "audio-mute muted" : "audio-mute"}
+                :tooltip "Mute / unmute" :onclick "scripts/audio-control.sh sink-input mute ${input.id}"
+                (label :text "󰕾"))
+              (label :class "audio-name" :limit-width 24 :halign "start" :tooltip "${input.name}" :text "${input.name}")
+              (scale :class "audio-slider" :hexpand true :min 0 :max 100 :value "${input.volume}"
+                :onchange "scripts/audio-control.sh sink-input set ${input.id} {}"))))))))
+(defwidget windows-widget []
+  (box :class "windows" :orientation "v" :space-evenly false
+    (section-heading :number "04" :title "OPEN WINDOWS" :subtitle "開いているウィンドウ")
+    (scroll :hscroll true :vscroll false :height 70
+      (box :class "window-list" :orientation "h" :space-evenly false :spacing 8
+        (for w in windows
+          (button :class "win-item" :tooltip "${w.title}" :onclick "scripts/focus-window.sh '${w.id}'"
+            (box :halign "center" :valign "center"
+              (image :visible {w.icon_name != ""}
+                :icon {w.icon_name != "" ? w.icon_name : "application-x-executable"}
+                :icon-size "large-toolbar")
+              (label :visible {w.icon_name == ""}
+                :class {w.icon == "GPT" ? "win-icon app-initials" : "win-icon"} :text "${w.icon}"))))))))
+(defwidget dashboard []
+  (box :class "dashboard" :orientation "v" :space-evenly false :spacing 18
+    (box :orientation "h" :space-evenly true :spacing 16
+      (resource-card :name "CPU" :icon "󰻠" :value cpu)
+      (resource-card :name "RAM" :icon "󰍛" :value ram)
+      (resource-card :name "GPU" :icon "󰢮" :value gpu))
+    (tasks-widget)
+    (today-checklist-widget)
+    (audio-mixer)
+    (windows-widget)
+    (box :class "dashboard-footer" :orientation "h" :space-evenly false
+      (label :halign "start" :text "${local-clock}")
+      (box :class "footer-rule" :hexpand true :valign "center")
+      (label :class "footer-mark" :text "┼"))))
+(defwindow dashboard-window
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "600px" :height "1080px" :anchor "center")
+  :stacking "fg" :windowtype "dock" :wm-ignore true
+  (dashboard))
+
+;; ═════════════════════════════════════════════════════════════
+;; LAUNCHER — perfil + clima + accesos directos + power menu
+;; Inspirado en el layout de referencia (tarjetas redondeadas oscuras)
+;; ═════════════════════════════════════════════════════════════
+
+;; ── Variables ──
+(defpoll weather :interval "10m" :initial "{\"temp\":\"--\",\"desc\":\"Loading...\"}" "scripts/weather.sh")
+(defpoll quote :interval "30m" "scripts/quote.sh")
+
+;; ── Tarjeta de perfil ──
+;; Initials keep the profile card portable without a personal image.
+(defwidget profile-card []
+  (box :class "card profile-card" :orientation "v" :space-evenly false :spacing 10 :halign "center"
+    (box :class "avatar-wrap" :halign "center" :valign "center"
+      (label :class "avatar" :text "AC"))
+    (box :orientation "v" :space-evenly false :spacing 0 :halign "center"
+      (label :class "profile-name" :text "> arch-user_")
+      (label :class "profile-subtitle" :text "Let's all Love Lain"))))
+
+;; ── Tarjeta de clima ──
+(defwidget weather-card []
+  (box :class "card weather-card" :orientation "v" :space-evenly false :spacing 6
+    (box :orientation "h" :space-evenly false :spacing 10 :valign "center"
+      (label :class "weather-icon" :text "󰖐")
+      (label :class "weather-temp" :text "${weather.temp}"))
+    (label :class "weather-desc" :halign "start" :text "${weather.desc}")))
+
+;; ── Sidebar de accesos a carpetas ──
+;; Cambiá xdg-open por tu file manager si preferís, y las rutas a las tuyas.
+(defwidget shortcuts-sidebar []
+  (box :class "card shortcuts" :orientation "v" :space-evenly false :spacing 2
+    (button :class "shortcut-icon-btn" :onclick "feh --bg-fill ~/Pictures/wallpapers/ &"
+      (label :text "󰋩"))
+    (button :class "shortcut" :onclick "xdg-open ~/Desktop &"
+      (label :halign "start" :text "Desktop"))
+    (button :class "shortcut" :onclick "xdg-open ~/Documents &"
+      (label :halign "start" :text "Documents"))
+    (button :class "shortcut" :onclick "xdg-open ~/Downloads &"
+      (label :halign "start" :text "Downloads"))
+    (button :class "shortcut" :onclick "xdg-open ~/.local/share/Trash &"
+      (label :halign "start" :text "Bin"))
+    (button :class "shortcut" :onclick "xdg-open ~/.config/openbox &"
+      (label :halign "start" :text "Openbox"))
+    (button :class "shortcut" :onclick "xdg-open ~/repos &"
+      (label :halign "start" :text "Repos"))))
+
+;; ── Columna de botones de power (verticales, a la derecha) ──
+(defwidget power-buttons []
+  (box :class "power-col" :orientation "v" :space-evenly true :spacing 8
+    (button :class "card power-btn danger" :onclick "scripts/power-actions.sh poweroff"
+      (label :text ""))
+    (button :class "card power-btn" :onclick "scripts/power-actions.sh reboot"
+      (label :text "󰑓"))
+    (button :class "card power-btn" :onclick "scripts/power-actions.sh lock"
+      (label :text ""))
+    (button :class "card power-btn" :onclick "scripts/theme-toggle.sh"
+      (label :text "󰽥"))
+    (button :class "card power-btn accent" :onclick "scripts/power-actions.sh logout"
+      (label :text "󰍃"))))
+
+;; ── Barra de búsqueda ──
+;; Por defecto lanza rofi al tocar el ícono. Cambiá el comando si usás otro launcher.
+(defwidget search-bar []
+  (box :class "card search-bar" :orientation "h" :space-evenly false :spacing 10 :valign "center"
+    (button :class "search-icon-btn" :onclick "rofi -show drun &"
+      (label :text "󰍉"))
+    (input :class "search-input"
+           :value ""
+           :onaccept "xdg-open {} &"
+           :hexpand true)))
+
+;; ── Tarjeta de frase random ──
+(defwidget quote-box []
+  (box :class "card quote-box" :orientation "v" :space-evenly false :valign "center"
+    (label :class "quote-text" :halign "start" :wrap true :limit-width 50 :text "${quote}")))
+
+;; ── Layout general del launcher ──
+(defwidget launcher []
+  (box :class "launcher" :orientation "v" :space-evenly false :spacing 10
+    (box :orientation "h" :space-evenly false :spacing 10
+      ;; Columna 1: perfil
+      (profile-card)
+      ;; Columna 2: clima
+      (weather-card)
+      ;; Columna 3: accesos a carpetas
+      (shortcuts-sidebar)
+      ;; Columna 4: power menu vertical
+      (power-buttons))
+    (box :orientation "h" :space-evenly false :spacing 10
+      (search-bar)
+      (quote-box))))
+
+;; ── Ventana del launcher ──
+(defwindow launcher-window
+  :monitor 0
+  :geometry (geometry :x "0px"
+                       :y "0px"
+                       :width "620px"
+                       :height "340px"
+                       :anchor "center")
+  :stacking "fg"
+  :windowtype "dialog"
+  :wm-ignore true
+  (launcher))

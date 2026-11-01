@@ -1,0 +1,237 @@
+[
+  {
+    "path": "home/.config/bspwm/bspwmrc",
+    "type": "file",
+    "sha256": "fa92ada1e3bd571342292b18f0bbb6b67c8e97f84a7f68267e3c218ac8a85df5"
+  },
+  {
+    "path": "home/.config/eww/eww.scss",
+    "type": "file",
+    "sha256": "da6bd87e1c2511d62233d078feb11bddb4c320363cc7b8e0d4cfabf559eef91b"
+  },
+  {
+    "path": "home/.config/eww/eww.yuck",
+    "type": "file",
+    "sha256": "e1c651d4804d9dde13313cbde78d8fc349fe7ba199165aa2bca6d2bfb6a7db33"
+  },
+  {
+    "path": "home/.config/eww/scripts/audio-control.sh",
+    "type": "file",
+    "sha256": "9f298e060c02bf1457ad78edccbde813ece5dbd14240d62a520e0b02410ac503"
+  },
+  {
+    "path": "home/.config/eww/scripts/audio-state.py",
+    "type": "file",
+    "sha256": "1a840f0fb4b9ad86a16242a22fa0994c78aabb00ce30d1e0d0e2da620434f59b"
+  },
+  {
+    "path": "home/.config/eww/scripts/cpu.sh",
+    "type": "file",
+    "sha256": "fc50c2db61cc73e0559cec962c213e8192f5fbb4946a45cf32da1220ea7151c1"
+  },
+  {
+    "path": "home/.config/eww/scripts/focus-window.sh",
+    "type": "file",
+    "sha256": "73b60ffb67f21c49483392a3dd9cb65acf340211cb74eb329f19a68c270994ca"
+  },
+  {
+    "path": "home/.config/eww/scripts/gpu.sh",
+    "type": "file",
+    "sha256": "7c990c2da3ec2bb7bc1e4281b1f040e4adee08bb5b020418a817fddb6a8d250d"
+  },
+  {
+    "path": "home/.config/eww/scripts/power-actions.sh",
+    "type": "file",
+    "sha256": "d17453e57f7b57c9b93bfce18b9a13e4829aeeb6877bffbe2bb9d84ba2492a34"
+  },
+  {
+    "path": "home/.config/eww/scripts/quote.sh",
+    "type": "file",
+    "sha256": "973838a073e6d45059a10bf3a572b4cc27576c48dc84846949677cef16fe0573"
+  },
+  {
+    "path": "home/.config/eww/scripts/ram.sh",
+    "type": "file",
+    "sha256": "e32f4421db82d85af9fa35df0cbdde59687d6f589c16a20928da148971b16f6b"
+  },
+  {
+    "path": "home/.config/eww/scripts/tasks.py",
+    "type": "file",
+    "sha256": "a662dc96ad82a7636f9aa6bf6d6f51697be25360ea4c408d0b18e2eb8018ba37"
+  },
+  {
+    "path": "home/.config/eww/scripts/theme-toggle.sh",
+    "type": "file",
+    "sha256": "80172181c28fe50b55f3aa191e67b28560a25db653a513f38215eddd4ad8acc6"
+  },
+  {
+    "path": "home/.config/eww/scripts/weather.sh",
+    "type": "file",
+    "sha256": "6653d413152af1ce211164a2a11e9ce3a23ee85efe36e1b6c1f7780b11a51ec4"
+  },
+  {
+    "path": "home/.config/eww/scripts/windows.sh",
+    "type": "file",
+    "sha256": "9cb2e7fe27b6cd7bd5e456ebf20baa340d29370c3dd56dcc6569bbaf3b48d29a"
+  },
+  {
+    "path": "home/.config/fontconfig/fonts.conf",
+    "type": "file",
+    "sha256": "31a081674d245c50bd7f8b2ffde262fe0924a944d07c278977f092ba31b8ea91"
+  },
+  {
+    "path": "home/.config/gtk-3.0/colors.css",
+    "type": "file",
+    "sha256": "ff740db1766d23d296aad4db3fbb3342b60f47dbbbe6e8f58463a3e5712a339e"
+  },
+  {
+    "path": "home/.config/gtk-3.0/gtk.css",
+    "type": "file",
+    "sha256": "39f53137010efbba8ccbbba7a5f9a744291bbb70f51fd743797d82dcceef62b7"
+  },
+  {
+    "path": "home/.config/gtk-3.0/settings.ini",
+    "type": "file",
+    "sha256": "d2aa33b0c325c324d9957018eb538001a2b30ad3b7ab9a40d1441271b26a442a"
+  },
+  {
+    "path": "home/.config/gtk-3.0/window_decorations.css",
+    "type": "file",
+    "sha256": "2bff7af9575f5bca8336018640fd2d049b8c04c0386ffe51c8edd92424c1025c"
+  },
+  {
+    "path": "home/.config/gtk-4.0/colors.css",
+    "type": "file",
+    "sha256": "ff740db1766d23d296aad4db3fbb3342b60f47dbbbe6e8f58463a3e5712a339e"
+  },
+  {
+    "path": "home/.config/gtk-4.0/gtk.css",
+    "type": "file",
+    "sha256": "39f53137010efbba8ccbbba7a5f9a744291bbb70f51fd743797d82dcceef62b7"
+  },
+  {
+    "path": "home/.config/gtk-4.0/settings.ini",
+    "type": "file",
+    "sha256": "60874e0853a971d736847ea54f96be5770bfa3a11ce41ef45181c809c63dcfd3"
+  },
+  {
+    "path": "home/.config/gtk-4.0/window_decorations.css",
+    "type": "file",
+    "sha256": "2bff7af9575f5bca8336018640fd2d049b8c04c0386ffe51c8edd92424c1025c"
+  },
+  {
+    "path": "home/.config/kitty/kitty.conf",
+    "type": "file",
+    "sha256": "e5229619abafc7e424326209c5a98436bc05eab1222470cacc24b5783acfd391"
+  },
+  {
+    "path": "home/.config/openbox/autostart",
+    "type": "file",
+    "sha256": "e878deea3b486fab8926eefafaaf3a348fac461619bd5fbf0e7b385ed58aaa2e"
+  },
+  {
+    "path": "home/.config/openbox/environment",
+    "type": "file",
+    "sha256": "d31b90687e1a9cf10fe83cbfbffd1542f0f06d5d285c4414ab34fdba8ec84b5c"
+  },
+  {
+    "path": "home/.config/openbox/menu.xml",
+    "type": "file",
+    "sha256": "e5f7754f98fd70d305058528d0ab196ca7f0fda731518ffe36cce1d14fc8d9dc"
+  },
+  {
+    "path": "home/.config/openbox/rc.xml",
+    "type": "file",
+    "sha256": "010d4ccca187537424459de075dca398d200fc89342c94c5058f65a9740c9037"
+  },
+  {
+    "path": "home/.config/picom/picom.conf",
+    "type": "file",
+    "sha256": "7fbac161eb0ec6294d4befb38cf970d6bb7939f0ebd01c872116e92282365704"
+  },
+  {
+    "path": "home/.config/polybar/config.ini",
+    "type": "file",
+    "sha256": "7d826b1160e35418fabcf904a7dae46d2467b35cef04ab78ec0b255c895fdadf"
+  },
+  {
+    "path": "home/.config/polybar/launch.sh",
+    "type": "file",
+    "sha256": "0761ac1e2011e859a080dc3d34b8eb3cf2d11a6bace974afa30b17542ccbf911"
+  },
+  {
+    "path": "home/.config/rofi/config.rasi",
+    "type": "file",
+    "sha256": "b2f2aa5277ff7ab45135ff727a4a0cdf5f47c9a7a17e83d4ffb4e8692da4ad21"
+  },
+  {
+    "path": "home/.config/rofi/powermenu.sh",
+    "type": "file",
+    "sha256": "1cb7393087faabd09d09f138c347e10023de4f7fe82494a8f7b093070f836c43"
+  },
+  {
+    "path": "home/.config/sxhkd/sxhkdrc",
+    "type": "file",
+    "sha256": "5f6a97d528c40bdb518875e60b106b9d4b565828e6eab123221375ce73dc75e9"
+  },
+  {
+    "path": "home/.config/sxhkd/sxhkdrc.bspwm",
+    "type": "file",
+    "sha256": "7dccf8b8d5136771131dbedef309d52ea36d3dbaccde3817acbd9a4bf1e95ad9"
+  },
+  {
+    "path": "home/.config/xsettingsd/xsettingsd.conf",
+    "type": "file",
+    "sha256": "7cb1970006a8ac6c616cf262bccb8308214a1552af0e397e4e80fe63b256622d"
+  },
+  {
+    "path": "home/.fehbg",
+    "type": "file",
+    "sha256": "44253b96d4d21309f598dfaab62d675f8d4b781a7de2ffede218f9472f987feb"
+  },
+  {
+    "path": "home/.gtkrc-2.0",
+    "type": "file",
+    "sha256": "38b36ea35208ff8866128352f467c2d7bc3ec2f56f12342175e38de6822f670b"
+  },
+  {
+    "path": "home/.icons/default/index.theme",
+    "type": "file",
+    "sha256": "1a3e5e110fca2f00a9c28927e01c25b52ffeff80a9c4a9ea4814173bed8a9f63"
+  },
+  {
+    "path": "home/.local/share/archconfig/wallpapers/bg.png",
+    "type": "file",
+    "sha256": "3923b84af31a87c0e56b2dac1a37da9d93d9949c9fdd678d394fc9fd2be2dbc5"
+  },
+  {
+    "path": "home/.local/share/archconfig/wallpapers/korekaiteshine.png",
+    "type": "file",
+    "sha256": "5375be0a8501a44cc452959075827167349aa9e6bc29da5f062f85cb09c4b25f"
+  },
+  {
+    "path": "home/.local/share/themes/CyberiaCafe/openbox-3/themerc",
+    "type": "file",
+    "sha256": "3cb38d4c4e1b67991154ef6b0f161f985695da7c7d33e3ff003b717b198d6059"
+  },
+  {
+    "path": "home/.xinitrc",
+    "type": "file",
+    "sha256": "26efb4d6f6155ba7ef58092094cc036b6ab524a6da8fd8050670691ef113081c"
+  },
+  {
+    "path": "home/.xprofile",
+    "type": "file",
+    "sha256": "7e27da7573d7673d1e0c440e3b4f088f58e2ff169c0175228d46b5ae6d3e29bf"
+  },
+  {
+    "path": "home/.zprofile",
+    "type": "file",
+    "sha256": "e6653e2b468339323f47d760bff67d91b2ce89437968d6debd9c86a97fa0fa79"
+  },
+  {
+    "path": "home/.zshrc",
+    "type": "file",
+    "sha256": "088a2da179366ccdd3b2c982b0a31a0563289478079b0899aeeb1107323a03fb"
+  }
+]

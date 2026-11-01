@@ -1,0 +1,2 @@
+xrandr --dpi 110
+printf 'Xft.dpi: 110\n' | xrdb -merge

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+run_once() {
+    if ! pgrep -u "$USER" -x "$1" >/dev/null 2>&1; then
+        shift
+        "$@" >/dev/null 2>&1 &
+    fi
+}
+
+xrandr --dpi 110 2>/dev/null || true
+xset s off -dpms s noblank 2>/dev/null || true
+xsetroot -solid '#0A0A0A' 2>/dev/null || true
+feh --no-fehbg --bg-fill "$HOME/.local/share/archconfig/wallpapers/korekaiteshine.png" >/dev/null 2>&1 &
+
+run_once xsettingsd xsettingsd
+run_once sxhkd sxhkd -c "$HOME/.config/sxhkd/sxhkdrc"
+run_once picom picom
+run_once dunst dunst
+run_once eww eww daemon
+run_once polkit-gnome-authentication-agent-1 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+run_once xdg-desktop-portal-gtk /usr/lib/xdg-desktop-portal-gtk
+run_once gvfsd gvfsd
+run_once gvfs-udisks2-volume-monitor gvfs-udisks2-volume-monitor
+xdg-user-dirs-update >/dev/null 2>&1 || true

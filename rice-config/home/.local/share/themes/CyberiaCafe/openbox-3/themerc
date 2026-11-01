@@ -1,0 +1,138 @@
+# Name: Ranma-Half-Green
+# Author: John McKnight <jmcknight@gmail.com>
+# Note: Recolored variant with #6baf35 titlebar, no visible borders,
+#       taller titlebar (via increased padding.width) to match reference image.
+#       Based on Ranma-Half (Clearlooks-Olive port for Openbox).
+
+# ─── Palette reference ────────────────────────────────────────────────────────
+#   Main Green      #6baf35   (titlebar)
+#   Dark Green      #558a2a   (gradiente / detalles)
+#   Muted Green     #a9cf8a   (titlebar inactiva)
+#   Near-black      #1A1018   (texto activo / contornos)
+#   Soft White      #FAF5F0
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+# Menu settings
+menu.title.bg: Flat Solid
+menu.title.bg.color: #6baf35
+menu.title.bg.colorTo: #558a2a
+menu.title.text.color: #FAF5F0
+menu.title.text.justify: Left
+
+menu.items.bg: Flat Solid
+menu.items.bg.color: #F5E6D0
+menu.items.text.color: #02314D
+menu.items.disabled.text.color: #aaaaaa
+menu.items.active.disabled.text.color: #969696
+
+menu.items.active.bg: Flat Solid
+menu.items.active.bg.color: #6baf35
+menu.items.active.bg.colorTo: #558a2a
+menu.items.active.bg.border.color: #6baf35
+menu.items.active.text.color: #FAF5F0
+
+
+# Window settings (focused)
+window.active.title.bg: Flat Solid
+window.active.title.bg.color: #6baf35
+window.active.title.bg.colorTo: #6baf35
+
+window.active.label.bg: Parentrelative
+window.active.label.text.color: #1A1018
+
+window.active.handle.bg: Flat Solid
+window.active.handle.bg.color: #6baf35
+window.active.handle.bg.colorTo: #6baf35
+
+window.active.grip.bg: Flat Solid
+window.active.grip.bg.color: #6baf35
+window.active.grip.bg.colorTo: #6baf35
+
+window.active.button.unpressed.bg: Flat Solid
+window.active.button.unpressed.bg.color: #6baf35
+window.active.button.unpressed.bg.colorTo: #558a2a
+window.active.button.unpressed.bg.border.color: #6baf35
+window.active.button.unpressed.image.color: #02314D
+
+window.active.button.pressed.bg: Flat Gradient Vertical Border
+window.active.button.pressed.bg.color: #02314D
+window.active.button.pressed.bg.colorTo: #2a1a20
+window.active.button.pressed.bg.border.color: #6baf35
+window.active.button.pressed.image.color: #FAF5F0
+
+window.active.button.disabled.bg: Flat Gradient Vertical Border
+window.active.button.disabled.bg.color: #1A1018
+window.active.button.disabled.bg.colorTo: #2a1a20
+window.active.button.disabled.bg.border.color: #6baf35
+window.active.button.disabled.image.color: #02314D
+
+window.active.button.toggled.bg: Flat Gradient Vertical Border
+window.active.button.toggled.bg.color: #558a2a
+window.active.button.toggled.bg.colorTo: #40701f
+window.active.button.toggled.bg.border.color: #6baf35
+window.active.button.toggled.image.color: #FAF5F0
+
+
+# Window settings (unfocused)
+window.inactive.title.bg: Flat Solid
+window.inactive.title.bg.color: #02314D
+window.inactive.title.bg.colorTo: #02314D
+
+window.inactive.label.bg: Parentrelative
+window.inactive.label.text.color: #3f5a2e
+
+window.inactive.handle.bg: Flat Solid
+window.inactive.handle.bg.color: #02314D
+window.inactive.handle.bg.colorTo: #02314D
+
+window.inactive.grip.bg: Flat Solid
+window.inactive.grip.bg.color: #02314D
+window.inactive.grip.bg.colorTo: #02314D
+
+window.inactive.button.unpressed.bg: Flat Solid
+window.inactive.button.unpressed.bg.color: #02314D
+window.inactive.button.unpressed.bg.colorTo: #02314D
+window.inactive.button.unpressed.bg.border.color: #6baf35
+window.inactive.button.unpressed.image.color: #1A1018
+
+window.inactive.button.pressed.bg: Flat Solid
+window.inactive.button.pressed.bg.color: #02314D
+window.inactive.button.pressed.bg.colorTo: #02314D
+window.inactive.button.pressed.bg.border.color: #6baf35
+window.inactive.button.pressed.image.color: #1A1018
+
+window.inactive.button.disabled.bg: Flat Solid
+window.inactive.button.disabled.bg.color: #02314D
+window.inactive.button.disabled.bg.colorTo: #02314D
+window.inactive.button.disabled.bg.border.color: #6baf35
+window.inactive.button.disabled.image.color: #6baf35
+
+window.inactive.button.toggled.bg: Flat Solid
+window.inactive.button.toggled.bg.color: #02314D
+window.inactive.button.toggled.bg.colorTo: #02314D
+window.inactive.button.toggled.bg.border.color: #6baf35
+window.inactive.button.toggled.image.color: #02314D
+
+
+### Everything else
+# border.width y window.handle.width en 0: sin bordes ni grip visibles.
+# padding.width subido a 6 (antes 0/2) para engrosar la titlebar y que se
+# parezca a la franja alta de la imagen de referencia. Openbox no tiene una
+# clave "title height" directa: la altura sale de font size + padding.width*2.
+# Si la querés todavía más alta, subí este valor (ej. 8 o 10) o el <size> del
+# font "ActiveWindow"/"InactiveWindow" en tu rc.xml.
+border.width: 0
+padding.width: 14
+window.handle.width: 0
+window.client.padding.width: 0
+window.client.padding.height: 0
+border.color: #6baf35
+menu.overlap: 0
+
+
+### Fonts
+window.active.label.text.font:shadow=y:shadowtint=70:shadowoffset=1
+window.inactive.label.text.font:shadow=y:shadowtint=20:shadowoffset=1
+menu.items.font:
+menu.title.text.font:shadow=y:shadowtint=70

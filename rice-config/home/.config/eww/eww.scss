@@ -1,0 +1,472 @@
+/* GTK CSS no soporta la propiedad "all", asi que en vez de "all: unset"
+   (que puede tirar abajo la hoja de estilos entera) reseteamos a mano
+   lo que suele meter ruido: bordes, sombras y padding/margin default
+   de los widgets GTK (botones, etc). */
+* {
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+/* Sin esto, la ventana GTK de fondo puede pintarse blanca/gris detras
+   de tus cards y taparles el color, o dar la sensacion de que "no hay
+   color" aunque las clases esten bien definidas. */
+window {
+  background-color: transparent;
+}
+
+.dashboard {
+  background-color: #6baf35;
+  border: 2px solid #1A1018;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.tasks-card {
+  background-color: rgba(26, 16, 24, 0.15);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.tasks-header {
+  min-height: 28px;
+}
+
+.tasks-title {
+  color: #1A1018;
+  font-weight: bold;
+}
+
+.task-add, .task-toggle, .task-delete {
+  background-color: transparent;
+  padding: 2px 6px;
+}
+
+.task-add {
+  background-color: #1A1018;
+  border-radius: 5px;
+  min-width: 26px;
+}
+
+.task-add label {
+  color: #6baf35;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tasks-empty {
+  color: rgba(26, 16, 24, 0.72);
+  font-size: 11px;
+}
+
+.task-row {
+  min-height: 26px;
+}
+
+.task-toggle, .task-delete {
+  min-width: 24px;
+}
+
+.task-toggle label, .task-delete label {
+  color: #1A1018;
+}
+
+.task-text {
+  color: #1A1018;
+}
+
+.task-text-done {
+  color: rgba(26, 16, 24, 0.58);
+  text-decoration: line-through;
+}
+
+.task-scroll {
+  min-height: 32px;
+}
+
+.module {
+  background-color: rgba(26, 16, 24, 0.15);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.module .icon {
+  color: #1A1018;
+  font-size: 16px;
+}
+
+.module .value {
+  color: #1A1018;
+}
+
+.icon-btn {
+  padding: 4px;
+  border: none;
+  background-color: transparent;
+}
+
+.vol-slider {
+  min-width: 70px;
+}
+
+.vol-slider trough {
+  background-color: rgba(107, 175, 53, 1);
+  border-radius: 4px;
+  min-height: 4px;
+}
+
+.vol-slider highlight {
+  background-color: #1A1018;
+  border-radius: 4px;
+}
+
+.vol-slider slider {
+  background-color: #1A1018;
+  border-radius: 50%;
+  min-width: 10px;
+  min-height: 10px;
+}
+
+.audio-mixer {
+  background-color: rgba(26, 16, 24, 0.15);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.audio-title, .audio-section {
+  color: #1A1018;
+  font-weight: bold;
+}
+
+.audio-section {
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.audio-row {
+  min-height: 26px;
+}
+
+.audio-mute, .audio-name {
+  background: transparent;
+  padding: 2px 4px;
+}
+
+.audio-mute label, .audio-name label {
+  color: #1A1018;
+}
+
+.audio-name {
+  min-width: 115px;
+}
+
+.audio-name.active label {
+  color: #fff4a8;
+}
+
+.audio-slider {
+  min-width: 100px;
+}
+
+.sink-slider {
+  min-width: 120px;
+}
+
+.audio-slider trough {
+  background-color: rgba(107, 175, 53, 1);
+  border-radius: 4px;
+  min-height: 4px;
+}
+
+.audio-slider highlight {
+  background-color: #1A1018;
+  border-radius: 4px;
+}
+
+.audio-slider slider {
+  background-color: #1A1018;
+  border-radius: 50%;
+  min-width: 9px;
+  min-height: 9px;
+}
+
+.windows {
+  background-color: rgba(26, 16, 24, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.windows .title {
+  color: #1A1018;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.window-list {
+    padding: 4px 0;
+}
+
+.win-item {
+    min-width: 38px;
+    min-height: 38px;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.win-icon {
+    font-size: 22px;
+}
+
+.win-item:hover {
+    background: rgba(106, 214, 255, 0.15);
+}
+
+.win-item:active {
+    background: rgba(160, 255, 0, 0.2);
+}
+
+.win-item label {
+  color: #1A1018;
+  font-size: 12px;
+}
+
+.win-item:hover {
+  background-color: rgba(26, 16, 24, 0.32);
+}
+
+
+/* =================================================
+   LAUNCHER - tarjetas oscuras estilo referencia
+   ================================================= */
+
+.launcher {
+  background-color: transparent;
+  padding: 4px;
+}
+
+.card {
+  background-color: rgba(15, 12, 14, 0.92);
+  border-radius: 14px;
+}
+
+/* -- Perfil -- */
+.profile-card {
+  padding: 16px;
+  min-width: 150px;
+}
+
+.avatar-wrap {
+  border-radius: 999px;
+  border: 3px solid #6baf35;
+  padding: 3px;
+}
+
+.avatar {
+  min-width: 90px;
+  min-height: 90px;
+  border-radius: 999px;
+  background: #171a20;
+  color: #6baf35;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.profile-name {
+  color: #6baf35;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.profile-subtitle {
+  color: #cfcfcf;
+  font-size: 11px;
+}
+
+/* -- Clima -- */
+.weather-card {
+  padding: 14px;
+  min-width: 160px;
+}
+
+.weather-icon {
+  color: #6baf35;
+  font-size: 26px;
+}
+
+.weather-temp {
+  color: #FAF5F0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.weather-desc {
+  color: #6baf35;
+  font-size: 12px;
+}
+
+/* -- Sidebar de carpetas -- */
+.shortcuts {
+  padding: 10px;
+  min-width: 120px;
+}
+
+.shortcut-icon-btn {
+  padding: 6px;
+  margin-bottom: 4px;
+}
+
+.shortcut-icon-btn label {
+  color: #6baf35;
+  font-size: 15px;
+}
+
+.shortcut {
+  padding: 6px 4px;
+}
+
+.shortcut label {
+  color: #d8d8d8;
+  font-size: 12px;
+}
+
+.shortcut:hover {
+  background-color: rgba(107, 175, 53, 0.15);
+  border-radius: 6px;
+}
+
+/* -- Columna de power -- */
+.power-col {
+  padding: 6px;
+}
+
+.power-btn {
+  padding: 10px;
+  min-width: 20px;
+}
+
+.power-btn label {
+  color: #d8d8d8;
+  font-size: 15px;
+}
+
+.power-btn.danger label {
+  color: #e35d5d;
+}
+
+.power-btn.accent label {
+  color: #6baf35;
+}
+
+.power-btn:hover {
+  background-color: rgba(107, 175, 53, 0.15);
+}
+
+/* -- Barra de busqueda -- */
+.search-bar {
+  padding: 10px 14px;
+  min-width: 340px;
+}
+
+.search-icon-btn label {
+  color: #6baf35;
+  font-size: 15px;
+}
+
+.search-input {
+  color: #FAF5F0;
+  font-size: 13px;
+}
+
+/* -- Frase random -- */
+.quote-box {
+  padding: 10px 14px;
+  min-width: 220px;
+}
+
+.quote-text {
+  color: #9c9c9c;
+  font-size: 11px;
+}
+
+/* Wired dashboard. Opaque surfaces; scoped to preserve the separate launcher. */
+.dashboard {
+  background-color: #090D0B; color: #D5DBD5; border: 1px solid #34452c;
+  border-radius: 9px; padding: 18px; font-family: "JetBrainsMono Nerd Font", "Noto Sans Mono", monospace;
+}
+.dashboard button { background-image: none; background-color: #090D0B; color: #D5DBD5; border: none; box-shadow: none; }
+.dashboard button:hover { background-color: #1c2918; }
+.dashboard label { color: #D5DBD5; }
+.dashboard .resource-card, .dashboard .tasks-card, .dashboard .today-checklist-card, .dashboard .audio-mixer, .dashboard .windows {
+  background-color: #101511; border: 1px solid #83C74D; border-radius: 8px; padding: 12px;
+}
+.dashboard .resource-card { padding: 12px 10px; min-height: 48px; }
+.dashboard .resource-icon { color: #A0FF00; font-size: 20px; }
+.dashboard .resource-name { color: #89978C; font-size: 12px; }
+.dashboard .resource-value { color: #A0FF00; font-size: 21px; font-weight: bold; }
+.dashboard .resource-bars { margin-left: 4px; }
+.dashboard .bar { color: #273321; font-size: 15px; }
+.dashboard .bar.lit { color: #A0FF00; }
+.dashboard .section-heading { min-height: 30px; margin-bottom: 10px; }
+.dashboard .section-toggle { background-color: transparent; padding: 0; }
+.dashboard .section-toggle:hover { background-color: #151d13; }
+.dashboard .section-number { background-color: #A0FF00; color: #090D0B; padding: 4px 8px; border-radius: 3px; font-weight: bold; }
+.dashboard .section-title { color: #D5DBD5; font-size: 13px; }
+.dashboard .section-subtitle { color: #89978C; font-size: 10px; }
+.dashboard .heading-line { min-height: 1px; background-color: #34452c; }
+.dashboard .tasks-header { min-height: 36px; }
+.dashboard .task-add { background-color: #A0FF00; padding: 4px 8px; border-radius: 3px; margin-bottom: 10px; }
+.dashboard .task-add label { color: #090D0B; font-size: 13px; }
+.dashboard .tasks-body { border-top: 1px solid #34452c; padding: 12px 0 0; }
+.dashboard .task-row { min-height: 35px; padding: 4px 0; border-bottom: 1px solid #23301f; }
+.dashboard .task-toggle, .dashboard .task-delete { background-color: transparent; min-width: 22px; padding: 2px; }
+.dashboard .task-toggle label { font-size: 23px; color: #D5DBD5; }
+.dashboard .task-delete label { color: #89978C; font-size: 18px; }
+.dashboard .task-text { color: #D5DBD5; font-size: 12px; }
+.dashboard .task-text-done { color: #89978C; text-decoration: line-through; }
+.dashboard .tasks-empty { color: #89978C; padding: 12px 4px; font-size: 12px; }
+.dashboard .task-annotation { color: #89978C; font-size: 9px; }
+.dashboard .daily-tasks-body { border-top: 1px solid #34452c; padding: 8px 0 0; }
+.dashboard .lain-art-slot { min-width: 160px; }
+.dashboard .audio-tabs { margin: 0 0 12px; }
+.dashboard .audio-tab { border: 1px solid #34452c; border-radius: 4px; padding: 6px 14px; }
+.dashboard .audio-tab.selected { background-color: #A0FF00; }
+.dashboard .audio-tab.selected label { color: #090D0B; }
+.dashboard .audio-row { min-height: 30px; }
+.dashboard .audio-mute { background-color: transparent; padding: 0; }
+.dashboard .audio-mute label { color: #A0FF00; font-size: 19px; }
+.dashboard .audio-mute.muted label { color: #89978C; }
+.dashboard .audio-name { min-width: 210px; background-color: transparent; padding: 0; }
+.dashboard .audio-name label { color: #D5DBD5; font-size: 11px; }
+.dashboard .audio-name.active label { color: #D5DBD5; }
+.dashboard .audio-slider { min-width: 160px; }
+.dashboard .audio-slider trough { background-color: #30372f; min-height: 7px; border-radius: 5px; }
+.dashboard .audio-slider highlight { background-color: #A0FF00; border-radius: 5px; }
+.dashboard .audio-slider slider { background-color: #A0FF00; background-image: none; border: none; border-radius: 50%; min-width: 15px; min-height: 15px; }
+.dashboard .window-list { padding: 8px 0; }
+.dashboard .win-item { background-color: #090D0B; border: 1px solid #83C74D; border-radius: 7px; min-width: 44px; min-height: 44px; padding: 0; }
+.dashboard .win-icon { color: #D5DBD5; font-size: 23px; }
+.dashboard .dashboard-footer label { color: #89978C; font-size: 9px; }
+.dashboard .footer-rule { background-color: #34452c; min-height: 1px; margin: 0 24px; }
+.dashboard .footer-mark { font-size: 22px; }
+.dashboard scrollbar { background-color: #101511; }
+.dashboard scrollbar slider { background-color: #34452c; min-width: 3px; min-height: 3px; border-radius: 2px; }
+
+.dashboard .bar { font-size: 12px; min-width: 3px; }
+.dashboard scale trough { background-image: none; background-color: #30372f; }
+.dashboard scale highlight { background-image: none; background-color: #A0FF00; }
+.dashboard scale slider { background-image: none; background-color: #A0FF00; }
+
+.dashboard .tasks-body { border: 1px solid #34452c; border-radius: 5px; padding: 12px; }
+
+/* Compact primary typography; secondary labels retain their previous sizes. */
+.dashboard .task-text-done { font-size: 12px; }
+.dashboard .audio-name { font-size: 11px; }
+.dashboard .audio-tab label { font-size: 12px; }
+.dashboard .section-number { font-size: 12px; }
+
+.dashboard .app-initials { font-size: 12px; font-weight: bold; }

@@ -1,0 +1,57 @@
+# Common shortcuts for the rice, plus BSPWM window and desktop controls.
+super + Return
+	kitty
+
+super + e
+	thunar
+
+super + @space
+	rofi -show drun
+
+super + Tab
+	env CANBERRA_DRIVER=null eww open --toggle dashboard-window
+
+super + w
+	wmctrl -c :ACTIVE:
+
+super + ctrl + s
+	mkdir -p "$HOME/Pictures/Screenshots"; maim -s | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | xclip -selection clipboard -t image/png
+
+super + bracketleft
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && notify-send 'Volume' '↓ Lowered' -t 800
+
+super + bracketright
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && notify-send 'Volume' '↑ Raised' -t 800
+
+XF86AudioRaiseVolume
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+
+XF86AudioLowerVolume
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+XF86AudioMute
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+super + shift + {h,j,k,l}
+	bspc node -s {west,south,north,east}
+
+super + ctrl + {h,j,k,l}
+	bspc node -v {-100 0,0 100,0 -100,100 0}
+
+super + alt + {h,j,k,l}
+	bspc node -z {left -100 0,bottom 0 100,top 0 -100,right 100 0}
+
+super + {1-7}
+	bspc desktop -f '^{1-7}'
+
+super + shift + {1-7}
+	bspc node -d '^{1-7}'
+
+super + f
+	if bspc query -N -n focused.floating >/dev/null; then bspc node -t tiled; else bspc node -t floating; fi
+
+super + alt + q
+	bspc quit

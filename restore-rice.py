@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Restore the snapshot with per-file backups, home remapping and hash checks."""
+"""Restore a reviewed rice bundle with per-file backups and hash checks."""
 import hashlib
 import json
 import os
@@ -27,18 +27,18 @@ def remap_home_refs(value, home):
     )
 
 
-def restore(snapshot, home):
-    snapshot = snapshot.resolve()
+def restore(rice_config, home):
+    rice_config = rice_config.resolve()
     home = home.resolve()
-    entries = json.loads((snapshot / 'manifest.json').read_text())
+    entries = json.loads((rice_config / 'manifest.json').read_text())
     backup = home / '.local/state/archconfig-backups' / datetime.now().strftime('%Y%m%d-%H%M%S-%f')
     # Verify every stored regular file before changing any destination.
     for entry in entries:
         relative = Path(entry['path'])
         if relative.is_absolute() or '..' in relative.parts:
             raise ValueError('Unsafe manifest path')
-        if entry['type'] == 'file' and sha(snapshot / relative) != entry['sha256']:
-            raise ValueError('Snapshot hash mismatch: ' + str(relative))
+        if entry['type'] == 'file' and sha(rice_config / relative) != entry['sha256']:
+            raise ValueError('Rice configuration hash mismatch: ' + str(relative))
     changed = unchanged = 0
     skipped = []
     for entry in entries:
@@ -57,7 +57,7 @@ def restore(snapshot, home):
         if not target.parent.resolve().is_relative_to(home):
             skipped.append(str(target_relative) + ': parent points outside home')
             continue
-        source = snapshot / relative
+        source = rice_config / relative
         link = None
         data = None
         if entry['type'] == 'symlink':
@@ -73,9 +73,6 @@ def restore(snapshot, home):
             if b'\x00' not in data:
                 try:
                     text = remap_home_refs(data.decode('utf-8'), home)
-                    if str(target_relative) == '.config/openbox/autostart':
-                        text = text.replace("if ! pgrep -u \"$USER\" -f 'mi-biblioteca-desktop'", 'if [ -x "' + str(home) + '/Proyects/GameLibrary/desktop/src-tauri/target/release/mi-biblioteca-desktop" ] && ! pgrep -u "$USER" -f \'mi-biblioteca-desktop\'')
-                        text = text.replace('if ! pgrep -u "$USER" -x kitty', 'if [ -x "' + str(home) + '/.local/bin/codex" ] && ! pgrep -u "$USER" -x kitty')
                     data = text.encode('utf-8')
                 except UnicodeDecodeError:
                     pass
@@ -100,7 +97,7 @@ def restore(snapshot, home):
         changed += 1
     backup.mkdir(parents=True, exist_ok=True)
     (backup / 'RESTORE-REPORT.txt').write_text(
-        f'Snapshot: {snapshot}\nChanged: {changed}\nUnchanged: {unchanged}\n'
+        f'Rice configuration: {rice_config}\nChanged: {changed}\nUnchanged: {unchanged}\n'
         + '\n'.join(skipped) + '\n')
     print(f'Restored: {changed}; unchanged: {unchanged}; skipped: {len(skipped)}')
     print(f'Previous files and report: {backup}')
@@ -111,5 +108,5 @@ def restore(snapshot, home):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        raise SystemExit('Usage: restore-rice.py SNAPSHOT TARGET_HOME')
+        raise SystemExit('Usage: restore-rice.py RICE_CONFIG TARGET_HOME')
     restore(Path(sys.argv[1]), Path(sys.argv[2]))
