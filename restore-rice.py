@@ -19,7 +19,8 @@ def sha(path):
 
 
 def remap_home_refs(value, home):
-    """Map an archived /home/<user> prefix to the selected destination home."""
+    """Map portable home markers and archived /home/<user> prefixes to the destination."""
+    value = value.replace("@RICE_HOME@", str(home))
     return re.sub(
         r"(?<![A-Za-z0-9._-])/home/[^/\s]+",
         lambda _: str(home),

@@ -160,6 +160,16 @@
     "sha256": "0761ac1e2011e859a080dc3d34b8eb3cf2d11a6bace974afa30b17542ccbf911"
   },
   {
+    "path": "home/.config/qmmp/qmmp.conf",
+    "type": "file",
+    "sha256": "fcf7121caf343a0a808342034d7a21484334f2e618d8b6090fc255a530d7d050"
+  },
+  {
+    "path": "home/.config/qmmp/skins/Twilight_a_Lain_Skin.wsz",
+    "type": "file",
+    "sha256": "8130c29ae3fcf2d6a6b3ec1115a33ff6122b1e9ebd7de418602165ae45222d9c"
+  },
+  {
     "path": "home/.config/rofi/config.rasi",
     "type": "file",
     "sha256": "b2f2aa5277ff7ab45135ff727a4a0cdf5f47c9a7a17e83d4ffb4e8692da4ad21"

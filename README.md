@@ -2,12 +2,12 @@
 
 Arch Config installs a portable Openbox/BSPWM desktop rice on an existing Arch Linux installation. A normal `./install.sh` installs the required package set and restores the reviewed configuration bundle in `rice-config/`. This is not an operating-system installer.
 
-The public bundle contains the rice's shell, window-manager, panel, launcher, GTK, Eww, and theme configuration, plus the two wallpapers referenced by the setup. It excludes personal documents, project directories, credentials, local application state, and VM artifacts. The private dated archive used while preparing this curated bundle is ignored by Git and is not required to install the rice.
+The public bundle contains the rice's shell, window-manager, panel, launcher, GTK, Eww, and theme configuration, QMMP configured with the selected Lain skin, and the two wallpapers referenced by the setup. It excludes personal documents, project directories, credentials, local application state, and VM artifacts. The private dated archive used while preparing this curated bundle is ignored by Git and is not required to install the rice.
 
 ## What the installer does
 
 - Runs a full `pacman -Syu` before installing packages, avoiding unsupported partial upgrades.
-- Installs the packages used by the rice from official repositories and Eww from the AUR, building `yay` if needed.
+- Installs the packages used by the rice from official repositories, including QMMP, and Eww from the AUR, building `yay` if needed.
 - Validates the bundle's SHA-256 manifest before restoring files.
 - Backs up conflicting destination files under `~/.local/state/archconfig-backups/` and leaves unrelated files in place.
 - Supports `--dry-run`, `--config-only`, `--packages-only`, and `--config-dir DIR`.
@@ -45,7 +45,7 @@ After installation, log out and select Openbox in an existing login manager, or 
 
 - `install.sh`: package installation and default full setup flow.
 - `restore-rice.py`: manifest verification, per-file restore, and conflict backups.
-- `rice-config/home/`: allowlisted, portable rice configuration and assets.
+- `rice-config/home/`: allowlisted, portable rice configuration and assets, including the selected QMMP skin.
 - `tools/update-rice-manifest.py`: regenerates the bundle integrity manifest after reviewed edits.
 
 The manifest covers only files inside `rice-config/`. The root `.gitignore` excludes dated personal archives, `vm-test/`, generated output, environment files, keys, and caches. Never copy personal backup data into the public bundle.

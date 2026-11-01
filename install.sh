@@ -38,7 +38,7 @@ REPO=(sudo base-devel git curl wget python zsh eza fzf ripgrep jq
   dbus dunst libnotify slock playerctl alsa-utils pavucontrol
   pipewire pipewire-audio pipewire-pulse wireplumber
   xsettingsd polkit polkit-gnome gvfs gvfs-mtp thunar xdg-utils xdg-user-dirs xdg-desktop-portal-gtk
-  breeze-gtk breeze-icons breeze-cursors fontconfig noto-fonts
+  qmmp breeze-gtk breeze-icons breeze-cursors fontconfig noto-fonts
   ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols)
 AUR=(eww)
 printf 'Rice configuration: %s\nDestination: %s\n' "$RICE_CONFIG" "$HOME"
@@ -48,7 +48,7 @@ if ((!CONFIG_ONLY)); then
   echo 'A full pacman -Syu upgrade precedes installation (no partial upgrades).'
 fi
 if ((!PACKAGES_ONLY)); then
-  echo 'Restore: reviewed rice configs, Eww scripts, Openbox theme, and the wallpapers used by the rice.'
+  echo 'Restore: reviewed rice configs, QMMP with the selected Lain skin, Eww scripts, Openbox theme, and wallpapers.'
   echo 'Existing differing files are saved under ~/.local/state/archconfig-backups/.'
 fi
 ((DRY)) && { echo 'DRY RUN: no changes made.'; exit 0; }
