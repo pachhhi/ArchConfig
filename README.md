@@ -6,21 +6,33 @@ The public bundle contains the rice's shell, window-manager, panel, launcher, GT
 
 ## What the installer does
 
-- Runs a full `pacman -Syu` before installing packages, avoiding unsupported partial upgrades.
+- Runs `pacman -Syu --needed` with the selected package list in one transaction, avoiding unsupported partial upgrades.
 - Installs the rice packages from official repositories, including QMMP, Vim, and Neovim (`nvim`), and Eww from the AUR, building `yay` if needed.
 - Validates the bundle's SHA-256 manifest before restoring files.
 - Backs up conflicting destination files under `~/.local/state/archconfig-backups/` and leaves unrelated files in place.
 - Supports `--dry-run`, `--noconfirm`, `--config-only`, `--packages-only`, and `--config-dir DIR`.
 
-The installer runs as a regular user and requests `sudo` for package operations. Prompts stay enabled by default; `--noconfirm` skips package-manager and AUR confirmations where supported. It cannot bypass `sudo` password authentication. It does not configure a bootloader, GPU driver, login manager, or default shell. Openbox is the default session in `.xinitrc`; select BSPWM with `RICE_WM=bspwm startx`.
+The installer runs as a regular user and requests `sudo` for package operations. Prompts stay enabled by default; `--noconfirm` skips supported pacman, makepkg, and yay confirmations, including the package transaction review. It cannot bypass `sudo` password authentication. It does not configure a bootloader, GPU driver, login manager, or default shell. Openbox is the default session in `.xinitrc`; select BSPWM with `RICE_WM=bspwm startx`.
+
+## Packages
+
+The installer installs these official repository packages:
+
+- **Base and shell:** `sudo`, `base-devel`, `git`, `curl`, `wget`, `python`, `zsh`, `eza`, `fzf`, `ripgrep`, `jq`, `vim`, `neovim` (provides the `nvim` command).
+- **Window managers and desktop tools:** `openbox`, `obconf-qt`, `bspwm`, `sxhkd`, `kitty`, `rofi`, `picom`, `polybar`, `feh`, `wmctrl`, `xdotool`, `xclip`, `maim`.
+- **Xorg:** `xorg-server`, `xorg-xinit`, `xorg-xrandr`, `xorg-xset`, `xorg-xsetroot`, `xorg-xprop`, `xorg-xrdb`.
+- **Services and audio:** `dbus`, `dunst`, `libnotify`, `slock`, `playerctl`, `alsa-utils`, `pavucontrol`, `pipewire`, `pipewire-audio`, `pipewire-pulse`, `wireplumber`.
+- **Desktop integration:** `xsettingsd`, `polkit`, `polkit-gnome`, `gvfs`, `gvfs-mtp`, `thunar`, `xdg-utils`, `xdg-user-dirs`, `xdg-desktop-portal-gtk`, `qmmp`.
+- **Themes and fonts:** `breeze-gtk`, `breeze-icons`, `breeze-cursors`, `fontconfig`, `noto-fonts`, `ttf-jetbrains-mono-nerd`, `ttf-nerd-fonts-symbols`.
+
+Eww is installed from the AUR. If `yay` is missing, the script builds it from the AUR using the installed `git` and `base-devel` packages. The QMMP configuration selects the bundled `Twilight_a_Lain_Skin` skin.
 
 ## Requirements
 
 - Arch Linux with network access and a regular user with `sudo` privileges.
-- Bash, Python 3, `pacman`, and `sudo`.
-- `git` and Arch build tools if `yay` is not already installed.
+- Bash, Python 3, `pacman`, and `sudo` already available before starting the script.
 
-Do not run the installer as root. Review the package prompts and the dry-run plan before applying changes.
+Do not run the installer as root. Review `./install.sh --dry-run` before applying changes. The installer installs `git` and `base-devel` itself when it proceeds with package installation.
 
 ## Usage
 
@@ -31,10 +43,12 @@ From a clone of this repository:
 ./install.sh
 ```
 
+To skip package-manager confirmation prompts, use `./install.sh --noconfirm`. `sudo` may still request your password.
+
 Options:
 
 - `--dry-run`: prints the package and configuration plan and exits without making changes.
-- `--noconfirm`: bypasses supported pacman, makepkg, and yay confirmation prompts; package operations may proceed without a final review. Sudo may still ask for your password.
+- `--noconfirm`: bypasses supported pacman, makepkg, and yay confirmation prompts, including review of the package transaction. Sudo may still ask for your password.
 - `--config-only`: restores the rice bundle without installing packages.
 - `--packages-only`: installs packages without restoring configuration.
 - `--config-dir DIR`: uses another reviewed bundle containing `home/` and `manifest.json`.
@@ -49,7 +63,7 @@ After installation, log out and select Openbox in an existing login manager, or 
 - `rice-config/home/`: allowlisted, portable rice configuration and assets, including the selected QMMP skin.
 - `tools/update-rice-manifest.py`: regenerates the bundle integrity manifest after reviewed edits.
 
-The Zsh configuration includes the workflow shortcuts from the original setup, using portable home-relative paths; local projects, VPN profiles, and credentials remain outside the bundle. The manifest covers only files inside `rice-config/`. The root `.gitignore` excludes dated personal archives, `vm-test/`, generated output, environment files, keys, and caches. Never copy personal backup data into the public bundle.
+The Zsh configuration includes the workflow shortcuts from the original setup (`openlab`, `ip4`, `venv`, `ports`, `translate`, `box`, `cheatengine`, `lain`, `rst`, `bspwmrc`, `sxhkdrc`, `polybarc`, `mkt`, and `pentestgpt`), plus the `ls`, `ll`, `la`, and `tree` helpers. Paths use `$HOME`; local projects, VPN profiles, and credentials remain outside the bundle. Some shortcuts require those local tools or files to exist. The manifest covers only files inside `rice-config/`. The root `.gitignore` excludes dated personal archives, `vm-test/`, generated output, environment files, keys, and caches. Never copy personal backup data into the public bundle.
 
 ## Scope and limitations
 

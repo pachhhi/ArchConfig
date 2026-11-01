@@ -47,7 +47,7 @@ printf 'Rice configuration: %s\nDestination: %s\n' "$RICE_CONFIG" "$HOME"
 if ((!CONFIG_ONLY)); then
   printf '\nOfficial packages:\n%s\n' "${REPO[*]}"
   printf '\nRice AUR packages (+ yay if missing):\n%s\n' "${AUR[*]}"
-  echo 'A full pacman -Syu upgrade precedes installation (no partial upgrades).'
+  echo 'A full pacman -Syu transaction upgrades the system and installs the selected packages.'
   if ((NOCONFIRM)); then
     echo 'Package-manager and AUR confirmation prompts: disabled where supported.'
   else
