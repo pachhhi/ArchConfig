@@ -1,0 +1,20 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+id_*
+known_hosts
+
+# Personal configuration snapshots and VM test material
+????-??-??_*/
+vm-test/
+
+# Python caches and local/generated output
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+artifacts/
