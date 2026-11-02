@@ -4,6 +4,12 @@ Arch Config installs a portable Openbox/BSPWM desktop rice on an existing Arch L
 
 The public bundle contains the rice's shell, window-manager, panel, launcher, GTK, Eww, and theme configuration, QMMP configured with the selected Lain skin, and the two wallpapers referenced by the setup. It excludes personal documents, project directories, credentials, local application state, and VM artifacts. The private dated archive used while preparing this curated bundle is ignored by Git and is not required to install the rice.
 
+## Desktop preview
+
+![Arch Linux rice with Openbox, Kitty, and a green desktop theme](docs/screenshots/Screenshot_20260909_013740.png)
+
+Reference screenshot of the Openbox desktop rice.
+
 ## What the installer does
 
 - Runs `pacman -Syu --needed` with the selected package list in one transaction, avoiding unsupported partial upgrades.
